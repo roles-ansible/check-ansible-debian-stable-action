@@ -13,6 +13,7 @@ For example:
 ```yaml
 name: Ansible check debian:stable  # feel free to pick your own name
 
+# yamllint disable-line rule:truthy
 on: [push, pull_request]
 
 jobs:
@@ -52,7 +53,7 @@ jobs:
         #   hosts: 'localhost'
         #   hosts: 'srv01.example.com'
         #
-        # requirements: ""
+        # requirements
         #  [optional]
         #   When testing playbooks and you are using ansible galaxy,
         #   you may be interested in installing your requirements
@@ -71,6 +72,7 @@ on:
   push:
     branches:
     - stable
+    - main
     - release/v*
 ```
 
