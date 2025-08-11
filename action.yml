@@ -33,6 +33,16 @@ inputs:
       or your requiements.yml file.
       -> e.g. 'requirements.yml'
     required: false
+  tags:
+    description: |
+      If you are using tags and you want to pick which tags
+      you are going to check you can optionally define them here.
+    required: false
+  skiptags:
+    desctiption:
+      If you are using tags and you want explicit skip some of them,
+      you can define them here.
+    required: false
 runs:
   using: docker
   image: Dockerfile
@@ -41,6 +51,8 @@ runs:
     HOSTS: ${{ inputs.hosts }}
     GROUP: ${{ inputs.group }}
     REQUIREMENTS: ${{ inputs.requirements }}
+    TAGS: ${{ inputs.tags }}
+    SKIPTAGS: $(( input.skiptags }}
 branding:
-  icon: 'aperture' 
+  icon: 'check-circle'
   color: 'green'

@@ -1,3 +1,4 @@
+# hadolint ignore=DL3007
 FROM debian:stable
 
 LABEL "maintainer"="L3D <l3d@c3woc.de>"
@@ -9,19 +10,38 @@ LABEL "com.github.actions.description"="Check ansible role or playbook with Debi
 LABEL "com.github.actions.icon"="aperture"
 LABEL "com.github.actions.color"="green"
 
-RUN apt-get update -y && apt-get install -y \
-    software-properties-common \
+# hadolint ignore=DL3008,DL3013
+RUN apt-get update -y && apt-get install -y --no-install-recommends \
+    apt-utils \
+    python3-xyzservices \
     build-essential \
     libffi-dev \
     libssl-dev \
     python3-dev \
+    python3-venv \
     python3-pip \
     git \
-    systemd
+    systemd \
+    locales \
+    libffi-dev \
+    libssl-dev \
+    libyaml-dev \
+    python3-setuptools \
+    python3-yaml \
+    systemd-cron sudo iproute2 \
+      && apt-get clean \
+      && rm -rf /var/lib/apt/lists/* \
+      && python3 -m venv ansible
 
-RUN pip3 install setuptools && pip3 install ansible
+# hadolint ignore=DL3008,DL3013,SC1091
+RUN . /ansible/bin/activate \
+      && pip3 install --no-cache-dir setuptools \
+      && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
+      && pip3 install --no-cache-dir ansible \
+      && ansible --version
 
-RUN ansible --version
+# Fix potential UTF-8 errors
+RUN locale-gen en_US.UTF-8
 
-ADD ansible-docker.sh /ansible-docker.sh
+COPY ansible-docker.sh /ansible-docker.sh
 ENTRYPOINT ["/ansible-docker.sh"]
