@@ -16,8 +16,7 @@ RUN apt-get update -y && apt-get install -y \
     libssl-dev \
     python3-dev \
     python3-pip \
-    git \
-    systemd
+    git
 
 RUN pip3 install setuptools && pip3 install ansible
 
