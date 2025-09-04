@@ -10,7 +10,6 @@ LABEL "com.github.actions.icon"="aperture"
 LABEL "com.github.actions.color"="green"
 
 RUN apt-get update -y && apt-get install -y \
-    software-properties-common \
     build-essential \
     libffi-dev \
     libssl-dev \
